@@ -87,13 +87,15 @@ int main(int argc, char **argv) {
          
         } ;
     
-    
     for (a=0; a<129; a++){
         //find the word in the set
         for (b = 0; b < words; b++) if (!strcmp(&vocab[b * max_w], gen_words[a])) break;
-            if (b == words) b = 0;
+        if (b == words) {
+            b = 0;
+        }
             //find the words position in vocabulary -- bi[0] is the first words position
             gen_words_pos[a] = b;
+        
     }
     
     long long she, he;
@@ -126,7 +128,7 @@ int main(int argc, char **argv) {
     
     for (int word = 0; word<129; word ++ ){
   //go through genwords and find their projection on she -. he
-    
+        if (gen_words_pos[word]!=0){
     for (a = 0; a < size; a++) dot += (vec[a] * M[a + gen_words_pos[word] * size]);
     // ||b||
     for (a = 0; a < size; a++) len += (vec[a] * vec[a]);
@@ -141,7 +143,7 @@ int main(int argc, char **argv) {
     len = 0;
     proj = 0;
     
-    }
+    }}
     
     fclose(score_file);
      return 0;
