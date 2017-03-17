@@ -8,12 +8,7 @@ WORD2VEC_DIR=../../word2vec
 BIN_DIR=$WORD2VEC_DIR/bin
 
 
-#check if word2vec model already exists in the folder above. clone it if it does not exist
-if [ -d $WORD2VEC_DIR ]; then
-    echo "word to vec already cloned. cool"
-else
-    git clone https://github.com/dav/word2vec.git $WORD2VEC_DIR
-fi
+
 
 red="\e[31m"
 nor="\e[39m"
@@ -43,7 +38,7 @@ while [[ $# -gt 0 ]]; do
                 echo "Must specify a text file to train your model"
                 shift 1
             else
-                echo "training on data set $2"
+                echo "Training on data set $2"
                 TEXT_DATA=$2
                 VECTOR_DATA="${TEXT_DATA%%.txt}"-vector.bin
                 TASK=1
@@ -51,11 +46,13 @@ while [[ $# -gt 0 ]]; do
             fi
             ;;
         -genPlot)
+            GENMAP=1
             if [ -z "$2" ]; then
                 echo "Must specify the vector bin that you are referencing for your plot"
+                echo "Plotting using default"
+                VECTOR_DATA=../vectorbins/text8-vector.bin
                 shift 1
             else
-                GENMAP=1
                 VECTOR_DATA=$2
                 shift 2
             fi
@@ -72,6 +69,12 @@ done
 if [ -z "$TASK" ]; then
     echo
 else
+    #check if word2vec model already exists in the folder above. clone it if it does not exist
+    if [ -d $WORD2VEC_DIR ]; then
+        echo "Word2vec already cloned. cool"
+    else
+        git clone https://github.com/dav/word2vec.git $WORD2VEC_DIR
+    fi
     pushd $WORD2VEC_DIR/src && make; popd
     time $BIN_DIR/word2vec -train $TEXT_DATA -output $VECTOR_DATA -cbow 0 -size 200 -window 5 -negative 0 -hs 1 -sample 1e-3 -threads 12 -binary 1
 fi
