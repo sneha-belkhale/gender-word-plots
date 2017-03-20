@@ -14,9 +14,6 @@ with open('scores.txt', 'r') as f:
         words.append(items[0])
         x_values.append(float(items[1]))
 
-
-print x_values
-
 fig = plt.figure()
 ax = fig.add_subplot(111)
 

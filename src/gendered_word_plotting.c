@@ -64,28 +64,52 @@ int main(int argc, char **argv) {
     
     
   // initialize a list of words to project onto the she - he axis
+    char gen2_words[129][max_size] = {"tote", "treats", "subject", "heavy", "commit", "game", "browsing", "sites", "seconds", "slow", "arrival", "tactical",
+        "crafts",
+        "trimester", "tanning", "ultrasound",
+        "modeling", "beautiful", "cake", "victims", "looks", "sewing", "dress", "dance", "letters", "nuclear", "hay", "quit",
+        "pageant", "earrings", "divorce", "firms",
+        "yard",
+        "seeking", "ties", "guru", "buddy",
+        "salon", "sassy", "breasts",
+        "dancers", "thighs", "lust", "lobby",
+        "user", "identity", "drop", "reel", "firepower",
+        "busy", "parts", "hoped", "command", "housing", "caused", "ill", "scrimmage",
+        "voters",
+        "vases", "frost", "governor", "sharply",
+        "rule",
+        "builder", "drafted", "brilliant", "genius",
+        "cocky", "journeyman",
+        "buddies", "burly", "war", "fight", "guns", "firearm", "confusion", "rape", "sex", "sexy", "murder", "fat", "slut", "chubby", "curvy", "slap", "leader", "programming", "power", "funny", "giggle", "chuckle", "smart", "weak", "bitch", "gossip", "bossy", "shrill", "dramatic", "catty", "cold", "ditzy", "prude", "quiet", "teeth", "mind", "thought", "police", "deity", "hands", "butt", "sociopath", "iphone", "texting", "texted", "surrender", "villain", "armpit", "heart", "love", "bdsm", "eat", "diet", "makeup", "melee", "videogames", "sports", "religion", "emotional","depression"
+        
+    };
     
-   
+    int count = 0;
+    char gen_words[120][max_size];
+//read from sample words.txt file
+    char str[999];
+    f = fopen("sample_words.txt", "rb");
+    if (f==NULL) {
+        int sfdjaks = 3;
+    }
     
-     char gen_words[129][max_size] = {"tote", "treats", "subject", "heavy", "commit", "game", "browsing", "sites", "seconds", "slow", "arrival", "tactical",
-         "crafts",
-         "trimester", "tanning", "ultrasound",
-         "modeling", "beautiful", "cake", "victims", "looks", "sewing", "dress", "dance", "letters", "nuclear", "hay", "quit",
-         "pageant", "earrings", "divorce", "firms",
-         "yard",
-         "seeking", "ties", "guru", "buddy",
-         "salon", "sassy", "breasts",
-         "dancers", "thighs", "lust", "lobby",
-         "user", "identity", "drop", "reel", "firepower",
-         "busy", "parts", "hoped", "command", "housing", "caused", "ill", "scrimmage",
-         "voters",
-         "vases", "frost", "governor", "sharply",
-         "rule",
-         "builder", "drafted", "brilliant", "genius",
-         "cocky", "journeyman",
-         "buddies", "burly", "war", "fight", "guns", "firearm", "confusion", "rape", "sex", "sexy", "murder", "fat", "slut", "chubby", "curvy", "slap", "leader", "programming", "power", "funny", "giggle", "chuckle", "smart", "weak", "bitch", "gossip", "bossy", "shrill", "dramatic", "catty", "cold", "ditzy", "prude", "quiet", "teeth", "mind", "thought", "police", "deity", "hands", "butt", "sociopath", "iphone", "texting", "texted", "surrender", "villain", "armpit", "heart", "love", "bdsm", "eat", "diet", "makeup", "melee", "videogames", "sports", "religion", "emotional","depression"
-         
-        } ;
+    
+    else {
+    
+        while (fscanf(f, "%s", str)!=EOF)
+        for (int i=0; i < sizeof str-1; i++){
+            
+            gen_words[count][i]=str[i];
+            
+            //printf("%s", str);
+        }
+        count = count+1;
+        fclose(f);
+        
+    
+    
+    }
+    
     
     for (a=0; a<129; a++){
         //find the word in the set

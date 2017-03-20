@@ -17,7 +17,7 @@ function usage() {
     printf "\nUsage: $THIS [-train PATH_TO_TXT_FILE] [-genPlot PATH_TO_BIN]\n\n"
     printf "${red}\nARGUMENTS\n${nor}"
     printf "\n    -train        Train the model on a specific data set\n"
-    printf "\n    -genPlot        generate a plot from a vector reading bin\n"
+    printf "\n    -genplot        generate a plot from a vector reading bin\n"
 
     return 0
 }
@@ -35,7 +35,7 @@ while [[ $# -gt 0 ]]; do
     case $1 in
         -train)
             if [ -z "$2" ]; then
-                echo "Must specify a text file to train your model"
+                echo "Must specify a text file to train your model. Default model has already been trained on text8"
                 shift 1
             else
                 echo "Training on data set $2"
@@ -45,11 +45,11 @@ while [[ $# -gt 0 ]]; do
                 shift 2
             fi
             ;;
-        -genPlot)
+        -genplot)
             GENMAP=1
             if [ -z "$2" ]; then
                 echo "Must specify the vector bin that you are referencing for your plot"
-                echo "Plotting using default"
+                echo "Plotting using default text8 vector bin"
                 VECTOR_DATA=../vectorbins/text8-vector.bin
                 shift 1
             else
@@ -83,11 +83,13 @@ fi
 if [ -z "$GENMAP"  ]; then
     echo
 else
-    gcc $SRC_DIR/gendered_word_plotting.c
+    pushd $SRC_DIR
 
-    ./$SRC_DIR/a.out $VECTOR_DATA
+    gcc gendered_word_plotting.c
+    ./a.out $VECTOR_DATA
+    python word_plots.py
 
-    python $SRC_DIR/word_plots.py
+    popd
 
 fi
 
