@@ -84,11 +84,10 @@ if [ -z "$GENMAP"  ]; then
     echo
 else
     pushd $SRC_DIR
-
+    #project the points and generate a word plot
     gcc gendered_word_plotting.c
     ./a.out $VECTOR_DATA
     python word_plots.py
-
     popd
 
 fi
