@@ -8,16 +8,12 @@ WORD2VEC_DIR=../../word2vec
 BIN_DIR=$WORD2VEC_DIR/bin
 
 
-
-
-red="\e[31m"
-nor="\e[39m"
-
 function usage() {
-    printf "\nUsage: $THIS [-train PATH_TO_TXT_FILE] [-genPlot PATH_TO_BIN]\n\n"
-    printf "${red}\nARGUMENTS\n${nor}"
-    printf "\n    -train        Train the model on a specific data set\n"
-    printf "\n    -genplot        generate a plot from a vector reading bin\n"
+    printf "\nUsage: $THIS [-t PATH_TO_TXT_FILE] [-g PATH_TO_BIN]\n"
+    printf "\nARGUMENTS\n"
+    printf "\n    -g, --train        Train the model on a specific data set"
+    printf "\n    -p, --plot         Generate a plot from a vector reading bin\n"
+    echo
 
     return 0
 }
@@ -33,7 +29,7 @@ fi
 while [[ $# -gt 0 ]]; do
     #check signal against the following options
     case $1 in
-        -train)
+        --train|-t)
             if [ -z "$2" ]; then
                 echo "Must specify a text file to train your model. Default model has already been trained on text8"
                 shift 1
@@ -45,7 +41,7 @@ while [[ $# -gt 0 ]]; do
                 shift 2
             fi
             ;;
-        -genplot)
+        --plot|-p)
             GENMAP=1
             if [ -z "$2" ]; then
                 echo "Must specify the vector bin that you are referencing for your plot"
@@ -71,7 +67,7 @@ if [ -z "$TASK" ]; then
 else
     #check if word2vec model already exists in the folder above. clone it if it does not exist
     if [ -d $WORD2VEC_DIR ]; then
-        echo "Word2vec already cloned. cool"
+        echo "Word2vec already cloned. Cool"
     else
         git clone https://github.com/dav/word2vec.git $WORD2VEC_DIR
     fi
@@ -91,7 +87,3 @@ else
     popd
 
 fi
-
-
-
-
