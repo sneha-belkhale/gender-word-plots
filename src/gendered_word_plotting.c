@@ -5,18 +5,28 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include <unistd.h>  // Getopt for arguments parsing as well as stdin IO
-#include <ctype.h>  // For isprint declaration
+#include <ctype.h>   // For isprint declaration
 
 const long long max_size = 2000;         // max length of strings
 const long long max_w = 50;              // max length of vocabulary entries
 const long long max_to_project = 100;    // max length of words to project
 
 int print_help() {
+    printf("\n");
+    printf("DESCRIPTION\n");
+    printf("\n");
+    printf("    This program numericaly maps given words to a pair of predifined words.\n");
+    printf("    This is useful to identify words relatinship and semantic biases.\n");
+    printf("    This program accept space separated set of word and output scored\n\
+    result to a file or stdout\n");
+
+    printf("\n");
+
     printf("OPTIONAL ARGUMENTS\n");
     printf("\n");
-    printf("    -i        Input vectorbin file\n");
-    printf("    -o        Output score file\n");
-    printf("    -w        Sample words file\n");
+    printf("    -i <FILE_PATH>        Input vectorbin file\n");
+    printf("    -o <FILE_PATH>        Output score file\n");
+    printf("    -w <FILE_PATH>        Sample words file\n");
     printf("\n");
 
     return 0;
@@ -48,7 +58,7 @@ int main(int argc, char **argv) {
   bool use_sample_words_file = false;
 
   // Parse command line arguments
-  // If no arguments were specified  the program will run with default options
+  // If no arguments were specified the program will run with default options
   while ((arg_char = getopt(argc, argv, "ho:w:")) != -1) {
     switch (arg_char) {
       case 'h':  // Print help and exit
