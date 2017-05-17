@@ -24,6 +24,8 @@ int print_help() {
 
     printf("OPTIONAL ARGUMENTS\n");
     printf("\n");
+    printf("    -v                    Print extra information\n");
+    printf("    -k                    Word pair to map samples words. he-she is defailt\n");
     printf("    -i <FILE_PATH>        Input vectorbin file\n");
     printf("    -o <FILE_PATH>        Output score file\n");
     printf("    -w <FILE_PATH>        Sample words file\n");
@@ -41,8 +43,12 @@ int main(int argc, char **argv) {
   char *output_scores_file = NULL;
   char *input_vectorbin_file = "../vectorbins/text8-vector.bin";
   char *vocab;
-  char she_char[max_size] = "she";
-  char he_char[max_size] = "he";
+  const char vector_delim[2] = "-";
+
+  // This is default values for two word in between
+  // which we going to map our sample words
+  char *from_word = "she";
+  char *to_word = "he";
 
   float dist, he_she_vec[max_size];
   float dot, len, proj;  char ch;
@@ -56,11 +62,15 @@ int main(int argc, char **argv) {
 
   bool output_to_file = false;
   bool use_sample_words_file = false;
+  bool verbose = false;
 
   // Parse command line arguments
   // If no arguments were specified the program will run with default options
-  while ((arg_char = getopt(argc, argv, "ho:w:")) != -1) {
+  while ((arg_char = getopt(argc, argv, "vho:w:k:")) != -1) {
     switch (arg_char) {
+      case 'v':  // Verbose output
+        verbose = true;
+        break;
       case 'h':  // Print help and exit
         print_help();
         return 0;
@@ -74,10 +84,19 @@ int main(int argc, char **argv) {
         use_sample_words_file = true;
         sample_words_file = optarg;
         break;
+      case 'k':  // Key pair for mapping
+        from_word = strtok(optarg, vector_delim);
+        // To search for the next token just pass NULL
+        to_word = strtok(NULL, vector_delim);
+        break;
       default:
         print_help();
         return 0;
     }
+  }
+
+  if (verbose) {
+    printf("Mapping to %s-%s\n", from_word, to_word);
   }
 
   // Open word2vec trained vectorbin file
@@ -174,7 +193,7 @@ int main(int argc, char **argv) {
 
   // Find the she and he positions in the vector bin
   for (b = 0; b < words; b++) {
-    if (!strcmp(&vocab[b * max_w], she_char)) {
+    if (!strcmp(&vocab[b * max_w], from_word)) {
       break;
     }
   }
@@ -186,7 +205,7 @@ int main(int argc, char **argv) {
   she = b;  // She position
 
   for (b = 0; b < words; b++) {
-    if (!strcmp(&vocab[b * max_w], he_char)) {
+    if (!strcmp(&vocab[b * max_w], to_word)) {
       break;
     }
   }
