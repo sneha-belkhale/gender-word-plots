@@ -66,7 +66,7 @@ int main(int argc, char **argv) {
 
   // Parse command line arguments
   // If no arguments were specified the program will run with default options
-  while ((arg_char = getopt(argc, argv, "vho:w:k:")) != -1) {
+  while ((arg_char = getopt(argc, argv, "vho:i:w:k:")) != -1) {
     switch (arg_char) {
       case 'v':  // Verbose output
         verbose = true;
