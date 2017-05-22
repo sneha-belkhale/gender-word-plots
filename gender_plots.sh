@@ -26,9 +26,11 @@ function dafault_action {
   if [[ ! -d "bin" ]]; then
     mkdir bin
   fi
-  
+
   echo "Bulding genplot binary"
-  gcc src/gendered_word_plotting.c -o bin/genplot
+  gcc src/gendered_word_plotting.c -o bin/genplot -lm
+  # -lm require to properly ling <math.h> function on Ubuntu
+  # See here for more info https://stackoverflow.com/questions/5248919/undefined-reference-to-sqrt-or-other-mathematical-functions
 }
 
 
