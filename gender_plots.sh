@@ -13,13 +13,27 @@ function usage() {
     printf "\nARGUMENTS\n"
     printf "\n    -g, --train        Train the model on a specific data set"
     printf "\n    -p, --plot         Generate a plot from a vector reading bin\n"
+    printf "\n    -h, --help        Train the model on a specific data set"
     echo
 
     return 0
 }
 
+
+function dafault_action {
+  # When no arguments provided this action is called
+  # Build the binary
+  if [[ ! -d "bin" ]]; then
+    mkdir bin
+  fi
+  
+  echo "Bulding genplot binary"
+  gcc src/gendered_word_plotting.c -o bin/genplot
+}
+
+
 if [[ $# = 0 ]]; then
-    usage
+    dafault_action
     exit 0
 fi
 
@@ -52,6 +66,11 @@ while [[ $# -gt 0 ]]; do
                 VECTOR_DATA=$2
                 shift 2
             fi
+            ;;
+        --help|-h)
+            # Print help and exit
+            usage
+            shift 1
             ;;
         *)
             usage

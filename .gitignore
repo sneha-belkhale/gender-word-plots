@@ -1,3 +1,4 @@
 *.out
 *Store
 .dSYM/
+bin/

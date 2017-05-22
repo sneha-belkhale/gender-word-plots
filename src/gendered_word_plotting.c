@@ -41,7 +41,7 @@ int main(int argc, char **argv) {
 
   char *sample_words_file = "sample_words.txt";
   char *output_scores_file = NULL;
-  char *input_vectorbin_file = "../vectorbins/text8-vector.bin";
+  char *input_vectorbin_file = "vectorbins/text8-vector.bin";
   char *vocab;
   const char vector_delim[2] = "-";
 
