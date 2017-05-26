@@ -77,10 +77,10 @@ generate_scores_for_unique_words(
     mapped_dot = (dots[word] - minDot) / (maxDot - minDot);
     if (output_to_file) {
       //output word and score to file
-      fprintf(score_file, "%s %f\n", &word_string_master[word*max_w], mapped_dot);
+      fprintf(score_file, "%s %f\n", &word_string_master[word * max_w], mapped_dot);
     } else {
       // Output word and score to stdout
-      printf("%s %f\n", &word_string_master[word*max_w], mapped_dot);
+      printf("%s %f\n", &word_string_master[word * max_w], mapped_dot);
     }
   }
   return 0 ;
@@ -107,10 +107,6 @@ generate_scores_for_sample_words(
       for (a = 0; a < size; a++) {
         dot += (he_she_vec[a] * word_vector_master[a + gen_words_pos[word] * size]);  //a * b
       }
-      for (a = 0; a < size; a++) {
-        len += (he_she_vec[a] * he_she_vec[a]); //||b||
-      }
-      proj = dot / sqrt(len);
       
       if (output_to_file) {
         //output word and score to file
