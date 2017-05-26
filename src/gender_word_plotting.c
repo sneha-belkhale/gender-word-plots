@@ -47,32 +47,42 @@ generate_scores_for_unique_words(
   //declare helper variables
   long long a, b;
   float dot, len, proj;
- 
+  float dots[words];
+  float minDot = 1.0;
+  float maxDot = 0.0;
   // Iterate through all words in the bin
   for (int word = 0; word < words; word++ ) {
     //Project onto the she<->he axis
     for (a = 0; a < size; a++) {
       dot += (he_she_vec[a] * word_vector_master[a + word * size]);  //a * b
     }
-    for (a = 0; a < size; a++) {
-      len += (he_she_vec[a] * he_she_vec[a]); //||b||
+    //update min an max values
+    if (dot < minDot){
+      minDot = dot;
     }
-    proj = dot / sqrt(len);
-    
-    if (output_to_file) {
-      //output word and score to file
-      fprintf(score_file, "%s %f\n", &word_string_master[word*max_w], dot);
-    } else {
-      // Output word and score to stdout
-      printf("%s %f\n", &word_string_master[word*max_w], dot);
+    if (dot > maxDot){
+      maxDot = dot;
     }
-    
+    dots[word]=dot;
+
     // Reset all variables
     dot = 0;
     len = 0;
     proj = 0;
   }
   
+  float mapped_dot;
+  for (int word = 0; word < words; word++ ){
+    //mapping to range 0-1
+    mapped_dot = (dots[word] - minDot) / (maxDot - minDot);
+    if (output_to_file) {
+      //output word and score to file
+      fprintf(score_file, "%s %f\n", &word_string_master[word*max_w], mapped_dot);
+    } else {
+      // Output word and score to stdout
+      printf("%s %f\n", &word_string_master[word*max_w], mapped_dot);
+    }
+  }
   return 0 ;
 }
 
