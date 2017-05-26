@@ -43,13 +43,21 @@ generate_scores_for_unique_words(
   char* word_string_master,
   float* word_vector_master,
   float* he_she_vec) {
-  
   //declare helper variables
-  long long a, b;
-  float dot, len, proj;
-  float dots[words];
+  long long a;
+  float dot;
+  float* dots;
+  dots = (float *)malloc(words * sizeof(float));
+  //check memory available
+  if (dots == NULL) {
+    printf("Cannot allocate memory to store the scores: %lld\n", (long long)words * sizeof(float) / 1048576);
+    return -1;
+  }
+
   float minDot = 1.0;
   float maxDot = 0.0;
+  printf("%lld %lld", words, size);
+  
   // Iterate through all words in the bin
   for (int word = 0; word < words; word++ ) {
     //Project onto the she<->he axis
@@ -65,10 +73,8 @@ generate_scores_for_unique_words(
     }
     dots[word]=dot;
 
-    // Reset all variables
+    // Reset dot product
     dot = 0;
-    len = 0;
-    proj = 0;
   }
   
   float mapped_dot;
@@ -97,8 +103,8 @@ generate_scores_for_sample_words(
   int sample_words_count) {
   
   //declare helper variables
-  long long a, b, c, d;
-  float dot, len, proj;
+  long long a;
+  float dot;
 
   // Iterate through all sample words
   for (int word = 0; word < sample_words_count; word++ ) {
@@ -116,10 +122,8 @@ generate_scores_for_sample_words(
         printf("%s %f\n", &gen_words[word * max_size], dot);
       }
       
-      // Reset all variables
+      // Reset dot product
       dot = 0;
-      len = 0;
-      proj = 0;
     }
   }
 
@@ -163,9 +167,8 @@ get_he_she_axis(
   float* word_vector_master) {
 
   //declare helper variables
-  long long a, b, c, d;
-  long long she,he;
-  float dot, len;
+  long long a, b, she, he;
+  float dot;
   char ch;
 
   //Find from_word position in word_string_master
@@ -209,22 +212,21 @@ get_size( FILE *f) {
 
   fscanf(f, "%lld", &words);
   fscanf(f, "%lld", &size);
-  
+
   return 0;
   
 }
-
-
 
 int
 load_vector_bin(
   FILE *f,
   char* word_string_master,
   float* word_vector_master) {
-  
-  long long a, b, c, d;
-  float dot, len, proj;
+  //declare helper variables
+  long long a, b;
+  float len;
   char ch;
+  
   //scan through each line
   for (b = 0; b < words; b++) {
     //save current word in word_string_master
@@ -243,14 +245,11 @@ load_vector_bin(
       word_vector_master[a + b * size] /= len;
     }
   }
-
   return 0;
 } //word_string_master and word_vector_master are now populated
 
 
-
-
-
+//***** MAIN PROCESS *****//
 
 int main(int argc, char **argv) {
   
