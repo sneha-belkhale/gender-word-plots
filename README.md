@@ -53,5 +53,11 @@ Here is where you can find links to more interesting data sets (including Donald
 
 ..
 
+## Screenshots
+
+Link to demo video: https://www.youtube.com/watch?v=dSOnhzk3T48
+
+![alt text](https://user-images.githubusercontent.com/17795014/27024953-87389d94-4f0d-11e7-8f38-ad5e884f29f0.png)
+![alt text](https://user-images.githubusercontent.com/17795014/27024958-8e032aa4-4f0d-11e7-85bc-7b39916e9506.png)
 
 #futureisfemale
